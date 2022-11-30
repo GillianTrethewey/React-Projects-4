@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Button from "./components/Button/Button.js";
+import RandomUserAPI from "./components/RandomUserAPI/RandomUserAPI";
 
 //https://randomuser.me/api
 function App() {
@@ -22,6 +23,7 @@ function App() {
     const response = await fetch(url);
     const data = await response.json();
     setPerson(data.results[0]);
+    console.log(person)
     setIsLoading(false);
   };
 
@@ -32,41 +34,30 @@ function App() {
   return (
     <div className="App">
       <div>
-        <h1>Counter</h1>
-        <h2>{counter}</h2>
-        <button onClick={incrementCounter}>Increment Counter</button>
-        <button onClick={decrementCounter}>Decrement Counter</button>
-        <br />
-        <h1>Counter from Button Component</h1>
-        <h2>{counter}</h2>
-        <Button onClick={incrementCounter} label={"Increment"} />
-        <Button onClick={decrementCounter} label={"Decrement"} />
+        {counter}
+        <Button
+          title={"Increment"}
+          onClick={incrementCounter}
+          label={"Increment"}
+        />
+        {counter}
+        <Button
+          title={"Decrement"}
+          onClick={decrementCounter}
+          label={"Decrement"}
+        />
       </div>
       <div>
-        <button
-          onClick={() => {
-            fetchRandomData();
-          }}
-        >
-          Fetch Random Data
-        </button>
+        <Button
+          isLoading={isLoading}
+          title={"Fetch Person"}
+          person={person}
+          onClick={fetchRandomData}
+          label={"Fetch Person"}
+        />
       </div>
       <div>
-        {isLoading || !person ? (
-          <div>loading...</div>
-        ) : (
-          <div>
-            <br />
-            <div>
-              {person.name.title} {person.name.first} {person.name.last}
-            </div>
-            <img
-              style={{ borderRadius: "50%" }}
-              src={person.picture.large}
-              alt={""}
-            />
-          </div>
-        )}
+        <RandomUserAPI />
       </div>
     </div>
   );
